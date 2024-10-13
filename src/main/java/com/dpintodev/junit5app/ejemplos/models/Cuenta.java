@@ -28,6 +28,27 @@ public class Cuenta {
     public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
     }
+
+    /**
+     * SIGUIENDO TDD (Test Driven Develpment), orientadoa primero escribir las pruebas
+     * y luego la lógica de los métodos, haremos debito y credito.
+     * .debito: para ver cuánto monto restan al saldo de la cuenta cuando hace una transferencia;
+     * .crédito: cuánto ingresa cuándo recibe una transferencia
+     *
+     * @param monto de tipo BigDecimal, el cual es INMUTABLE (no se modifica el valor del atributo BigDecimal,
+     *  si no que devuelve nueva instancia con ese cambio; pero this.saldo se queda inmutable, por lo que,
+     *  substract (restar) o add (sumar) de su API NO funcionaría).
+     *  Por eso, necesitamos devolver esa nueva instancia con el cambio:    this.saldo = this. . . . .
+     */
+    public void debito(BigDecimal monto){
+        this.saldo = this.saldo.subtract(monto);
+
+    }
+    public void credito(BigDecimal monto){
+        this.saldo = this.saldo.add(monto);
+
+    }
+
     /**
      * Sobrescribir MET.equals (para la comparación por valor de atributos (persona,saldo) en Test):
      * @param obj --> objeto con el cual comparamos, lo CASTEAMOS a tipo Cuenta
@@ -47,6 +68,7 @@ public class Cuenta {
                 return false;
         }
         return this.persona.equals(c.getPersona()) && this.saldo.equals(c.getSaldo());
+
     }
 
 

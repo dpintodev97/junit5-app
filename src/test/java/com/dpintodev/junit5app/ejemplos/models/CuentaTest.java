@@ -12,9 +12,10 @@ import static org.junit.jupiter.api.Assertions.*;
     . ejecutamos test:
     CTRL + SHIFT F10 (o en los ticks verdes en el código)
 
-    PROBAREMOS 1º: LA CUENTA ; Y 2º EL SALDO  (haremos 2 tests, 2 metodos)
+    PROBAREMOS PARA 1º: LA CUENTA ; Y 2º EL SALDO  (haremos varias pruebas)
      */
 class CuentaTest {
+
     @Test
     void testNombreCuenta() {
         //1.INSTANCIAR CLASE A PROBAR (podríamos pasar constructor, de hecho, pasamos inputs: Andrés, y su saldo)
@@ -28,6 +29,9 @@ class CuentaTest {
         //-->  VALOR ESPERADO/EXPECTATIVA, DE TIPO String VS REALIDAD; y ejecutamos TEST
         String esperado = "Andrés";
         String real = cuenta.getPersona();
+
+        assertNotNull(real); //NO SEA null real (NOS ASEGURAMOS ANTES DEL equals)
+
         //PASAMOS UN NOMBRE de Cuenta A NUESTRO OBJETO cuenta, Y ES EL QUE ESPERAMOS QUE SEA, Andrés:
         assertEquals(esperado, real);
         // ----------------------------------------------
@@ -44,6 +48,7 @@ class CuentaTest {
             //TRUCO: ALT + CTRL + V : para colocar automat. el objeto cuenta con tipo de dato Cuenta solo empezando a escribir lo de new Cuenta
             Cuenta cuenta = new Cuenta("Andrés", new BigDecimal("1000.12345"));
 
+            assertNotNull(cuenta.getSaldo()); //COMPROBAR saldo NO SEA null
             //AFIRMAMOS VALOR ESPERADO: saldo 1000 es BigDecimal, PERO, LO COMPARAREMOS CON VALOR CONVERTIDO A double, DE BigDecimal; perfecto
             assertEquals(1000.12345, cuenta.getSaldo().doubleValue());
 
@@ -79,5 +84,51 @@ class CuentaTest {
             //b) COMPARAR POR VALOR:
             assertEquals(cuenta2, cuenta);
 
+        }
+
+        /**
+         * Test: DebitoCuenta y CreditoCuenta --> sigue práctica TDD (Test Driven Development)
+         * Donde: 1.Se hacen las Pruebas unitarias esperando que falle porque aún no está la lógica en Cuenta
+         *        2.Se implementan los métodos en Cuenta
+         */
+        @Test
+        void testDebitoCuenta(){
+            //Atajo recordemos: ALT + CTRL + V, sobre cuenta de new cuenta:
+            Cuenta cuenta = new Cuenta("Andrés", new BigDecimal("1000.12345"));
+
+            //DATOS DE PRUEBA A RESTAR AL SALDO DE LA CUENTA (100):
+            cuenta.debito(new BigDecimal(100));
+
+            //2 PRUEBAS UNITARIAS (valor esperado/expectativa vs realidad):
+            assertNotNull(cuenta.getSaldo());
+            assertEquals(900, cuenta.getSaldo().intValue());  //PROBAR UN ENTERO
+            assertEquals("900.12345", cuenta.getSaldo().toPlainString());  //PROBAR UN String (String plano con valor del saldo)
+
+            //1º EJECUTAR TEST (TDD): fallaría cuando aún no se IMPLEMENTARON los met. en Cuenta, porque esperaría 900, pero en realidad es 1000,
+            // NUNCA se descontó
+            //2ºUNA VEZ IMPLEMENTADOS EN Cuenta: TEST OKAY ;))
+        }
+
+        /**
+         * Test: DebitoCuenta y CreditoCuenta --> sigue práctica TDD (Test Driven Development)
+         * Donde: 1.Se hacen las Pruebas unitarias esperando que falle porque aún no está la lógica en Cuenta
+         *        2.Se implementan los métodos en Cuenta
+         */
+        @Test
+        void testCreditoCuenta(){
+            //Atajo recordemos: ALT + CTRL + V, sobre cuenta de new cuenta:
+            Cuenta cuenta = new Cuenta("Andrés", new BigDecimal("1000.12345"));
+
+            //DATOS DE PRUEBA A RESTAR AL SALDO DE LA CUENTA (100):
+            cuenta.credito(new BigDecimal(100));
+
+            //2 PRUEBAS UNITARIAS (valor esperado/expectativa vs realidad):
+            assertNotNull(cuenta.getSaldo());
+            assertEquals(1100, cuenta.getSaldo().intValue());  //PROBAR UN ENTERO
+            assertEquals("1100.12345", cuenta.getSaldo().toPlainString());  //PROBAR UN String (String plano con valor del saldo)
+
+            //1ªEJECUTAR TEST (TDD): fallaría cuando aún no se IMPLEMENTARON los met. en Cuenta, porque esperaría 1100, pero en realidad
+            // NUNCA se añadierían los 100
+            //2ºUNA VEZ IMPLEMENTADOS EN Cuenta: TEST OKAY ;))
         }
     }
