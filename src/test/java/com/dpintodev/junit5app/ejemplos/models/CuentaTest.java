@@ -63,17 +63,21 @@ class CuentaTest {
         /**
          * COMPARAREMOS 2 Objetos Cuenta (con mismos inputs) en una nueva prueba :
          *  a) COMPARAR POR REFERENCIA, POR INSTANCIA:
-         * .y comparar si estas referencias son iguales (ya que método equals COMPARA POR REFERENCIA en memoria);
-         * aunque podemos también comparar por 	VALOR, por atributos (si saldo es igual, los objetos son iguales pero guardados en otras direcciones de memoria)
-         * b) COMPARAR POR VALOR:
+         * .y comparar si estas referencias son iguales (ya que mét. equals COMPARA POR REFERENCIA en memoria);
+         *  b) COMPARAR POR VALOR : por atributos (si saldo es igual, los objetos son iguales pero guardados en otras direcciones de memoria)
+         *
          */
         @Test
         void testReferenciaCuenta() {
             //CREAMOS DOS INSTANCIAS IGUALES:
             Cuenta cuenta = new Cuenta("John Doe", new BigDecimal("8900.999"));
             Cuenta cuenta2 = new Cuenta("John Doe", new BigDecimal("8900.999"));
+
             //VER SI ESTAS 2 cuentas SON IGUALES con nNOtEquals: <-- PASA EL TEST
-            assertNotEquals(cuenta2, cuenta);
+            //assertNotEquals(cuenta2, cuenta);
+
+            //b) COMPARAR POR VALOR:
+            assertEquals(cuenta2, cuenta);
 
         }
     }
